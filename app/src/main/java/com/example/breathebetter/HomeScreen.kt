@@ -96,50 +96,10 @@ fun HomeScreen(navController: NavController, authViewModel: AuthViewModel) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(16.dp)
+                .padding(top = 100.dp, bottom = 100.dp) // leave space for top & bottom bars
                 .verticalScroll(rememberScrollState()),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Top
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            // Logo + Welcome Text + Logout Emoji
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween,
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Image(
-                        painter = painterResource(id = R.drawable.logo),
-                        contentDescription = "Logo",
-                        modifier = Modifier
-                            .size(40.dp)
-                            .padding(end = 8.dp)
-                    )
-
-                    Text(
-                        text = "Welcome to BreatheBetter",
-                        style = MaterialTheme.typography.headlineSmall,
-                        fontWeight = FontWeight.Bold
-                    )
-                }
-
-                // Logout emoji button
-                Text(
-                    text = "\uD83D\uDD12", // 🔒 emoji
-                    fontSize = 30.sp,
-                    modifier = Modifier
-                        .padding(start = 8.dp)
-                        .clickable {
-                            authViewModel.logout()
-                            navController.navigate("auth") {
-                                popUpTo("home") { inclusive = true }
-                            }
-                        }
-                )
-            }
-
-            Spacer(modifier = Modifier.height(30.dp))
-
             // Section Title
             Text(
                 text = "Tips & Breathing Exercises:",
@@ -183,7 +143,42 @@ fun HomeScreen(navController: NavController, authViewModel: AuthViewModel) {
                 expandedText = "Roll shoulders, release tension.\nBreathe steady and slow."
             )
 
-            Spacer(modifier = Modifier.height(100.dp)) // Extra bottom padding so scroll doesn't overlap nav bar
+            Spacer(modifier = Modifier.height(40.dp))
+        }
+
+        // -------------------
+        // Fixed Top Bar
+        // -------------------
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .align(Alignment.TopCenter)
+                .background(Color.White)
+                .padding(16.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Image(
+                    painter = painterResource(id = R.drawable.logo),
+                    contentDescription = "Logo",
+                    modifier = Modifier.size(40.dp).padding(end = 8.dp)
+                )
+                Text(
+                    text = "Welcome to BreatheBetter",
+                    style = MaterialTheme.typography.headlineSmall,
+                    fontWeight = FontWeight.Bold
+                )
+            }
+
+            Text(
+                text = "\uD83D\uDD12", // 🔒 logout
+                fontSize = 30.sp,
+                modifier = Modifier.clickable {
+                    authViewModel.logout()
+                    navController.navigate("auth") { popUpTo("home") { inclusive = true } }
+                }
+            )
         }
 
         // -------------------
@@ -198,26 +193,10 @@ fun HomeScreen(navController: NavController, authViewModel: AuthViewModel) {
             horizontalArrangement = Arrangement.SpaceEvenly,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Text(
-                text = "\uD83C\uDFE0", // 🏠 Home
-                fontSize = 36.sp,
-                modifier = Modifier.clickable { navController.navigate("home") }
-            )
-            Text(
-                text = "\uD83D\uDE03", // 😃 Mood Tracker
-                fontSize = 36.sp,
-                modifier = Modifier.clickable { navController.navigate("mood") }
-            )
-            Text(
-                text = "✍", // Journal
-                fontSize = 36.sp,
-                modifier = Modifier.clickable { navController.navigate("journal") }
-            )
-            Text(
-                text = "\uD83D\uDCAC", // 💬 Community
-                fontSize = 36.sp,
-                modifier = Modifier.clickable { navController.navigate("community") }
-            )
+            Text("\uD83C\uDFE0", fontSize = 36.sp, modifier = Modifier.clickable { navController.navigate("home") })
+            Text("\uD83D\uDE03", fontSize = 36.sp, modifier = Modifier.clickable { navController.navigate("mood") })
+            Text("✍", fontSize = 36.sp, modifier = Modifier.clickable { navController.navigate("journal") })
+            Text("\uD83D\uDCAC", fontSize = 36.sp, modifier = Modifier.clickable { navController.navigate("community") })
         }
     }
 }

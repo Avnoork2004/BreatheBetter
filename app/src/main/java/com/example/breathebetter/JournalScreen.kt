@@ -54,38 +54,10 @@ fun JournalScreen(navController: NavController, authViewModel: AuthViewModel, jo
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(16.dp)
+                .padding(top = 100.dp, bottom = 100.dp) // leave space for top & bottom bars
                 .verticalScroll(rememberScrollState())
+                .padding(horizontal = 16.dp)
         ) {
-            // Logo + Welcome Text + Logout
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween,
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Image(
-                        painter = painterResource(id = R.drawable.logo),
-                        contentDescription = "Logo",
-                        modifier = Modifier.size(40.dp).padding(end = 8.dp)
-                    )
-                    Text(
-                        text = "Welcome to BreatheBetter",
-                        style = MaterialTheme.typography.headlineSmall,
-                        fontWeight = FontWeight.Bold
-                    )
-                }
-                Text(
-                    text = "\uD83D\uDD12",
-                    fontSize = 30.sp,
-                    modifier = Modifier.clickable {
-                        authViewModel.logout()
-                        navController.navigate("auth") { popUpTo("home") { inclusive = true } }
-                    }
-                )
-            }
-
-            Spacer(modifier = Modifier.height(30.dp))
             Text("Journal", style = MaterialTheme.typography.headlineSmall)
             Spacer(modifier = Modifier.height(8.dp))
 
@@ -130,8 +102,40 @@ fun JournalScreen(navController: NavController, authViewModel: AuthViewModel, jo
                 Text("${java.util.Date(it.timestamp)} — ${it.title ?: "No title"}")
                 Text(it.content, modifier = Modifier.padding(bottom = 8.dp))
             }
+        }
 
-            Spacer(modifier = Modifier.height(100.dp)) // extra space so content isn't hidden behind nav bar
+        // -------------------
+        // Fixed Top Bar
+        // -------------------
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .align(Alignment.TopCenter)
+                .background(Color.White)
+                .padding(16.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Image(
+                    painter = painterResource(id = R.drawable.logo),
+                    contentDescription = "Logo",
+                    modifier = Modifier.size(40.dp).padding(end = 8.dp)
+                )
+                Text(
+                    text = "Welcome to BreatheBetter",
+                    style = MaterialTheme.typography.headlineSmall,
+                    fontWeight = FontWeight.Bold
+                )
+            }
+            Text(
+                text = "\uD83D\uDD12",
+                fontSize = 30.sp,
+                modifier = Modifier.clickable {
+                    authViewModel.logout()
+                    navController.navigate("auth") { popUpTo("home") { inclusive = true } }
+                }
+            )
         }
 
         // -------------------
@@ -141,8 +145,8 @@ fun JournalScreen(navController: NavController, authViewModel: AuthViewModel, jo
             modifier = Modifier
                 .fillMaxWidth()
                 .align(Alignment.BottomCenter)
-                .padding(vertical = 12.dp)
-                .background(Color.White),
+                .background(Color.White)
+                .padding(vertical = 12.dp),
             horizontalArrangement = Arrangement.SpaceEvenly,
             verticalAlignment = Alignment.CenterVertically
         ) {

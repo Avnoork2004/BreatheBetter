@@ -59,44 +59,13 @@ fun MoodTrackerScreen(navController: NavController, authViewModel: AuthViewModel
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(16.dp)
+                .padding(top = 100.dp, bottom = 100.dp) // leave space for fixed top & bottom bars
                 .verticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            // Logo + Welcome
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween,
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Image(
-                        painter = painterResource(id = R.drawable.logo),
-                        contentDescription = "Logo",
-                        modifier = Modifier.size(40.dp).padding(end = 8.dp)
-                    )
-                    Text(
-                        text = "Welcome to BreatheBetter",
-                        style = MaterialTheme.typography.headlineSmall,
-                        fontWeight = FontWeight.Bold
-                    )
-                }
-                Text(
-                    text = "\uD83D\uDD12",
-                    fontSize = 30.sp,
-                    modifier = Modifier.clickable {
-                        authViewModel.logout()
-                        navController.navigate("auth") { popUpTo("home") { inclusive = true } }
-                    }
-                )
-            }
-
-            Spacer(modifier = Modifier.height(30.dp))
-
             Text("How are you feeling today?", style = MaterialTheme.typography.headlineSmall)
             Spacer(modifier = Modifier.height(12.dp))
 
-            // Emoji grid
             chunkedMoods.forEach { row ->
                 Row(
                     modifier = Modifier.fillMaxWidth().padding(vertical = 6.dp),
@@ -124,7 +93,7 @@ fun MoodTrackerScreen(navController: NavController, authViewModel: AuthViewModel
 
             Spacer(modifier = Modifier.height(20.dp))
 
-            // Note input with submit
+            // Note input + submit
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically
@@ -159,12 +128,46 @@ fun MoodTrackerScreen(navController: NavController, authViewModel: AuthViewModel
             Text("Recent moods", style = MaterialTheme.typography.titleMedium)
             moods.take(5).forEach {
                 Text(
-                    "${it.mood} — ${java.util.Date(it.timestamp)} ${it.note?.let { note -> "- $note" } ?: ""}",
+                    "${it.mood} — ${java.util.Date(it.timestamp)} ${it.note?.let { n -> "- $n" } ?: ""}",
                     modifier = Modifier.padding(vertical = 2.dp)
                 )
             }
 
-            Spacer(modifier = Modifier.height(100.dp)) // Extra padding so last item doesn't overlap nav bar
+            Spacer(modifier = Modifier.height(100.dp)) // padding so content doesn't overlap bottom nav
+        }
+
+        // -------------------
+        // Fixed Top Bar
+        // -------------------
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .align(Alignment.TopCenter)
+                .background(Color.White)
+                .padding(16.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Image(
+                    painter = painterResource(id = R.drawable.logo),
+                    contentDescription = "Logo",
+                    modifier = Modifier.size(40.dp).padding(end = 8.dp)
+                )
+                Text(
+                    text = "Welcome to BreatheBetter",
+                    style = MaterialTheme.typography.headlineSmall,
+                    fontWeight = FontWeight.Bold
+                )
+            }
+            Text(
+                text = "\uD83D\uDD12",
+                fontSize = 30.sp,
+                modifier = Modifier.clickable {
+                    authViewModel.logout()
+                    navController.navigate("auth") { popUpTo("home") { inclusive = true } }
+                }
+            )
         }
 
         // -------------------

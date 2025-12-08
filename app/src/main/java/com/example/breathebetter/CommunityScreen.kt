@@ -50,41 +50,10 @@ fun CommunityScreen(navController: NavController, communityViewModel: CommunityV
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(16.dp)
+                .padding(top = 100.dp, bottom = 100.dp) // leave space for top & bottom bars
                 .verticalScroll(rememberScrollState())
+                .padding(horizontal = 16.dp)
         ) {
-            // Logo + Welcome Text + Logout Emoji
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween,
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Image(
-                        painter = painterResource(id = R.drawable.logo),
-                        contentDescription = "Logo",
-                        modifier = Modifier.size(40.dp).padding(end = 8.dp)
-                    )
-                    Text(
-                        text = "Welcome to BreatheBetter",
-                        style = MaterialTheme.typography.headlineSmall,
-                        fontWeight = FontWeight.Bold
-                    )
-                }
-
-                Text(
-                    text = "\uD83D\uDD13", // 🔓 emoji
-                    fontSize = 30.sp,
-                    modifier = Modifier.clickable {
-                        navController.navigate("auth") {
-                            popUpTo("home") { inclusive = true }
-                        }
-                    }
-                )
-            }
-
-            Spacer(modifier = Modifier.height(30.dp))
-
             Text("Community Board (anonymous)", style = MaterialTheme.typography.headlineSmall)
             Spacer(modifier = Modifier.height(8.dp))
 
@@ -123,8 +92,41 @@ fun CommunityScreen(navController: NavController, communityViewModel: CommunityV
                 Text("${java.util.Date(it.timestamp)}")
                 Text(it.content, modifier = Modifier.padding(bottom = 8.dp))
             }
+        }
 
-            Spacer(modifier = Modifier.height(100.dp)) // extra space so last message isn't hidden
+        // -------------------
+        // Fixed Top Bar
+        // -------------------
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .align(Alignment.TopCenter)
+                .background(Color.White)
+                .padding(16.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Image(
+                    painter = painterResource(id = R.drawable.logo),
+                    contentDescription = "Logo",
+                    modifier = Modifier.size(40.dp).padding(end = 8.dp)
+                )
+                Text(
+                    text = "Welcome to BreatheBetter",
+                    style = MaterialTheme.typography.headlineSmall,
+                    fontWeight = FontWeight.Bold
+                )
+            }
+            Text(
+                text = "\uD83D\uDD13", // logout emoji
+                fontSize = 30.sp,
+                modifier = Modifier.clickable {
+                    navController.navigate("auth") {
+                        popUpTo("home") { inclusive = true }
+                    }
+                }
+            )
         }
 
         // -------------------
@@ -134,8 +136,8 @@ fun CommunityScreen(navController: NavController, communityViewModel: CommunityV
             modifier = Modifier
                 .fillMaxWidth()
                 .align(Alignment.BottomCenter)
-                .padding(vertical = 12.dp)
-                .background(Color.White),
+                .background(Color.White)
+                .padding(vertical = 12.dp),
             horizontalArrangement = Arrangement.SpaceEvenly,
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -145,6 +147,7 @@ fun CommunityScreen(navController: NavController, communityViewModel: CommunityV
             Text("\uD83D\uDCAC", fontSize = 36.sp, modifier = Modifier.clickable { navController.navigate("community") })
         }
     }
+
 
     LaunchedEffect(Unit) { communityViewModel.loadMessages() }
 }
