@@ -13,16 +13,20 @@ import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import android.util.Patterns
+import androidx.compose.foundation.Image
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.res.painterResource
+import com.example.breathebetter.viewmodel.AuthViewModel
 import java.text.SimpleDateFormat
 import java.util.Locale
 
-// Checks if DOB is valid in MM/DD/YYYY
+// --- DATE VALIDATION ---
 fun isValidDate(dob: String): Boolean {
     if (dob.length != 10) return false
     val sdf = SimpleDateFormat("MM/dd/yyyy", Locale.US)
     sdf.isLenient = false
     return try {
-        sdf.parse(dob) // exception if invalid
+        sdf.parse(dob)
         true
     } catch (e: Exception) {
         false
@@ -30,25 +34,45 @@ fun isValidDate(dob: String): Boolean {
 }
 
 @Composable
-fun RegistrationScreen(navController: NavController) {
-    //form feilds
+fun RegistrationScreen(navController: NavController, authViewModel: AuthViewModel) {
+
+    // Form fields
     var firstName by remember { mutableStateOf("") }
     var lastName by remember { mutableStateOf("") }
     var dob by remember { mutableStateOf(TextFieldValue("")) }
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
-    var errorMsg by remember { mutableStateOf("") }
+
+    var localError by remember { mutableStateOf("") }
+    val authError by authViewModel.authError.collectAsState(initial = null)
 
     val scrollState = rememberScrollState()
 
-    // main layout
-    Box(modifier = Modifier.fillMaxSize()) {
+    Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center // center the Column
+    ) {
         Column(
             modifier = Modifier
-                .verticalScroll(scrollState)  // scrolling
-                .padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp)
+                .verticalScroll(scrollState)
+                .padding(16.dp)
+                .fillMaxWidth(0.9f),
+            verticalArrangement = Arrangement.spacedBy(12.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
+
+            Text("Welcome to BreatheBetter", style = MaterialTheme.typography.headlineMedium)
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            // Centered logo/image
+            Image(
+                painter = painterResource(id = R.drawable.logo),
+                contentDescription = "App Logo",
+                modifier = Modifier.size(150.dp)
+            )
+
+
             Text("Register", style = MaterialTheme.typography.headlineMedium)
 
             // First Name
@@ -58,7 +82,9 @@ fun RegistrationScreen(navController: NavController) {
                     val filtered = it.filter { char -> char.isLetter() || char.isWhitespace() }
                     if (filtered.length <= 30) firstName = filtered
                 },
-                label = { Text("First Name") }
+                label = { Text("First Name") },
+                singleLine = true,
+                modifier = Modifier.fillMaxWidth()
             )
 
             // Last Name
@@ -68,7 +94,9 @@ fun RegistrationScreen(navController: NavController) {
                     val filtered = it.filter { char -> char.isLetter() || char.isWhitespace() }
                     if (filtered.length <= 30) lastName = filtered
                 },
-                label = { Text("Last Name") }
+                label = { Text("Last Name") },
+                singleLine = true,
+                modifier = Modifier.fillMaxWidth()
             )
 
             // DOB
@@ -85,7 +113,9 @@ fun RegistrationScreen(navController: NavController) {
                     dob = TextFieldValue(formatted, selection = TextRange(formatted.length))
                 },
                 label = { Text("Date of Birth (MM/DD/YYYY)") },
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                singleLine = true,
+                modifier = Modifier.fillMaxWidth()
             )
 
             // Email
@@ -93,7 +123,9 @@ fun RegistrationScreen(navController: NavController) {
                 value = email,
                 onValueChange = { email = it },
                 label = { Text("Email") },
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email)
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
+                singleLine = true,
+                modifier = Modifier.fillMaxWidth()
             )
 
             // Password
@@ -101,28 +133,61 @@ fun RegistrationScreen(navController: NavController) {
                 value = password,
                 onValueChange = { password = it },
                 label = { Text("Password") },
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password)
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+                singleLine = true,
+                modifier = Modifier.fillMaxWidth()
             )
 
-            //shows errors
-            if (errorMsg.isNotEmpty()) Text(errorMsg, color = MaterialTheme.colorScheme.error)
+            // Error messages
+            if (localError.isNotEmpty()) {
+                Text(localError, color = MaterialTheme.colorScheme.error)
+            }
+            if (!authError.isNullOrEmpty()) {
+                Text(authError!!, color = MaterialTheme.colorScheme.error)
+            }
 
-            //signup btn
-            Button(onClick = {
-                //validates the feilds
-                errorMsg = when {
-                    firstName.length < 3 || firstName.length > 30 -> "First name must be 3-30 characters"
-                    lastName.length < 1 || lastName.length > 30 -> "Last name must be 1-30 characters"
-                    dob.text.isEmpty() -> "Date of birth cannot be empty"
-                    !isValidDate(dob.text) -> "Invalid date of birth"
-                    !Patterns.EMAIL_ADDRESS.matcher(email).matches() -> "Invalid email"
-                    password.length < 6 -> "Password must be at least 6 characters"
-                    else -> ""
+            // Buttons Row: Sign Up + Home
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(12.dp, Alignment.CenterHorizontally)
+            ) {
+                Button(
+                    onClick = {
+                        // Local validation
+                        localError = when {
+                            firstName.length !in 3..30 -> "First name must be 3–30 characters"
+                            lastName.length !in 1..30 -> "Last name must be 1–30 characters"
+                            dob.text.isEmpty() -> "Date of birth cannot be empty"
+                            !isValidDate(dob.text) -> "Invalid date of birth (MM/DD/YYYY)"
+                            !Patterns.EMAIL_ADDRESS.matcher(email).matches() -> "Invalid email address"
+                            password.length < 6 -> "Password must be at least 6 characters"
+                            else -> ""
+                        }
+
+                        if (localError.isEmpty()) {
+                            authViewModel.register(
+                                first = firstName.trim(),
+                                last = lastName.trim(),
+                                email = email.trim(),
+                                password = password
+                            ) {
+                                navController.navigate("auth") {
+                                    popUpTo("register") { inclusive = true }
+                                }
+                            }
+                        }
+                    },
+                    modifier = Modifier.weight(1f)
+                ) {
+                    Text("Sign Up")
                 }
-                //if all is good go bck to the auth login/register btn screen
-                if (errorMsg.isEmpty()) navController.navigate("auth")
-            }) {
-                Text("Sign Up")
+
+                Button(
+                    onClick = { navController.navigate("login") },
+                    modifier = Modifier.weight(1f)
+                ) {
+                    Text("Log-in")
+                }
             }
         }
     }

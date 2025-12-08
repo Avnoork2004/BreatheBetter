@@ -26,7 +26,7 @@ fun AuthChoiceScreen(navController: NavController) {
 
             // Image below it
             Image(
-                painter = painterResource(id = R.drawable.splash_image), // drawable resource for the logo
+                painter = painterResource(id = R.drawable.logo), // drawable resource for the logo
                 contentDescription = "App Logo", //description
                 modifier = Modifier
                     .size(150.dp) // size of the image
