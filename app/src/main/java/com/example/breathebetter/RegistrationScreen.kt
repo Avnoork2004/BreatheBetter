@@ -20,7 +20,7 @@ import com.example.breathebetter.viewmodel.AuthViewModel
 import java.text.SimpleDateFormat
 import java.util.Locale
 
-// --- DATE VALIDATION ---
+// date validation
 fun isValidDate(dob: String): Boolean {
     if (dob.length != 10) return false
     val sdf = SimpleDateFormat("MM/dd/yyyy", Locale.US)
@@ -50,7 +50,7 @@ fun RegistrationScreen(navController: NavController, authViewModel: AuthViewMode
 
     Box(
         modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center // center the Column
+        contentAlignment = Alignment.Center // centers the column
     ) {
         Column(
             modifier = Modifier
@@ -65,7 +65,7 @@ fun RegistrationScreen(navController: NavController, authViewModel: AuthViewMode
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Centered logo/image
+            // Centered logo
             Image(
                 painter = painterResource(id = R.drawable.logo),
                 contentDescription = "App Logo",
@@ -99,7 +99,7 @@ fun RegistrationScreen(navController: NavController, authViewModel: AuthViewMode
                 modifier = Modifier.fillMaxWidth()
             )
 
-            // DOB
+            // Date of birth
             OutlinedTextField(
                 value = dob,
                 onValueChange = { newValue ->
@@ -146,14 +146,14 @@ fun RegistrationScreen(navController: NavController, authViewModel: AuthViewMode
                 Text(authError!!, color = MaterialTheme.colorScheme.error)
             }
 
-            // Buttons Row: Sign Up + Home
+            // Buttons Row: Sign Up and Home
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(12.dp, Alignment.CenterHorizontally)
             ) {
                 Button(
                     onClick = {
-                        // Local validation
+                        // validation
                         localError = when {
                             firstName.length !in 3..30 -> "First name must be 3–30 characters"
                             lastName.length !in 1..30 -> "Last name must be 1–30 characters"

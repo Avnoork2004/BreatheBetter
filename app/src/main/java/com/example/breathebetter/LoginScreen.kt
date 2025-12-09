@@ -46,7 +46,7 @@ fun LoginScreen(navController: NavController, authViewModel: AuthViewModel) {
             modifier = Modifier
                 .verticalScroll(scrollState)
                 .padding(16.dp)
-                .fillMaxWidth(0.9f), // Optional: limits width for better centering
+                .fillMaxWidth(0.9f),
             verticalArrangement = Arrangement.spacedBy(12.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -57,7 +57,7 @@ fun LoginScreen(navController: NavController, authViewModel: AuthViewModel) {
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Centered logo/image
+            // Centered logo
             Image(
                 painter = painterResource(id = R.drawable.logo),
                 contentDescription = "App Logo",

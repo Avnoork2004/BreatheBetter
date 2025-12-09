@@ -8,7 +8,7 @@ import java.util.*
 data class MoodEntry(
     @PrimaryKey(autoGenerate = true) val id: Long = 0,
     val userId: Long,
-    val mood: String, // e.g., "Happy", "Sad", "Okay", "Anxious"
+    val mood: String, //"Happy", "Sad", "Okay", "Anxious" Emoji based
     val note: String?,
     val timestamp: Long = System.currentTimeMillis()
 )

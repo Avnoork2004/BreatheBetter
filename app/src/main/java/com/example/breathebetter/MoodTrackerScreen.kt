@@ -47,19 +47,19 @@ fun MoodTrackerScreen(navController: NavController, authViewModel: AuthViewModel
 
     var note by remember { mutableStateOf("") }
 
-    // 6 emoji moods (2 rows × 3)
-    val moodOptions = listOf("😊", "😢", "😟", "😡", "😫", "🙂", "\uD83D\uDE2D", "\uD83D\uDE0C", "\uD83D\uDE13")
+    // 9 emoji moods (3 rows × 3)
+    val moodOptions = listOf("😊", "😢", "😟", "😡", "😫", "🙂", "\uD83D\uDE2D", "\uD83D\uDE0C", "\uD83D\uDE13") //😭 😌 😓
     val chunkedMoods = moodOptions.chunked(3)
 
     Box(modifier = Modifier.fillMaxSize()) {
 
-        // -------------------
+
         // Scrollable content
-        // -------------------
+
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(top = 100.dp, bottom = 100.dp) // leave space for fixed top & bottom bars
+                .padding(top = 100.dp, bottom = 100.dp) // space for fixed top & bottom bars
                 .verticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -93,7 +93,7 @@ fun MoodTrackerScreen(navController: NavController, authViewModel: AuthViewModel
 
             Spacer(modifier = Modifier.height(20.dp))
 
-            // Note input + submit
+            // Note input and then submit
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically
@@ -136,9 +136,8 @@ fun MoodTrackerScreen(navController: NavController, authViewModel: AuthViewModel
             Spacer(modifier = Modifier.height(100.dp)) // padding so content doesn't overlap bottom nav
         }
 
-        // -------------------
+
         // Fixed Top Bar
-        // -------------------
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -161,7 +160,7 @@ fun MoodTrackerScreen(navController: NavController, authViewModel: AuthViewModel
                 )
             }
             Text(
-                text = "\uD83D\uDD12",
+                text = "\uD83D\uDD12", //🔒 logout
                 fontSize = 30.sp,
                 modifier = Modifier.clickable {
                     authViewModel.logout()
@@ -170,9 +169,8 @@ fun MoodTrackerScreen(navController: NavController, authViewModel: AuthViewModel
             )
         }
 
-        // -------------------
+
         // Fixed Bottom Navigation Bar
-        // -------------------
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -182,10 +180,10 @@ fun MoodTrackerScreen(navController: NavController, authViewModel: AuthViewModel
             horizontalArrangement = Arrangement.SpaceEvenly,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Text("\uD83C\uDFE0", fontSize = 36.sp, modifier = Modifier.clickable { navController.navigate("home") })
-            Text("\uD83D\uDE03", fontSize = 36.sp, modifier = Modifier.clickable { navController.navigate("mood") })
-            Text("✍", fontSize = 36.sp, modifier = Modifier.clickable { navController.navigate("journal") })
-            Text("\uD83D\uDCAC", fontSize = 36.sp, modifier = Modifier.clickable { navController.navigate("community") })
+            Text("\uD83C\uDFE0", fontSize = 36.sp, modifier = Modifier.clickable { navController.navigate("home") }) //🏠
+            Text("\uD83D\uDE03", fontSize = 36.sp, modifier = Modifier.clickable { navController.navigate("mood") }) //😃
+            Text("✍", fontSize = 36.sp, modifier = Modifier.clickable { navController.navigate("journal") }) //✍
+            Text("\uD83D\uDCAC", fontSize = 36.sp, modifier = Modifier.clickable { navController.navigate("community") }) //💬
         }
     }
 

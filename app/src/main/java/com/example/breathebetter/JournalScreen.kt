@@ -48,13 +48,12 @@ fun JournalScreen(navController: NavController, authViewModel: AuthViewModel, jo
 
     Box(modifier = Modifier.fillMaxSize()) {
 
-        // -------------------
+
         // Scrollable content
-        // -------------------
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(top = 100.dp, bottom = 100.dp) // leave space for top & bottom bars
+                .padding(top = 100.dp, bottom = 100.dp) // space for top & bottom bars
                 .verticalScroll(rememberScrollState())
                 .padding(horizontal = 16.dp)
         ) {
@@ -64,7 +63,7 @@ fun JournalScreen(navController: NavController, authViewModel: AuthViewModel, jo
             OutlinedTextField(
                 value = title,
                 onValueChange = { title = it },
-                label = { Text("Title (optional)") },
+                label = { Text("Title (optional ex: date )") },
                 modifier = Modifier.fillMaxWidth()
             )
 
@@ -104,9 +103,7 @@ fun JournalScreen(navController: NavController, authViewModel: AuthViewModel, jo
             }
         }
 
-        // -------------------
         // Fixed Top Bar
-        // -------------------
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -129,7 +126,7 @@ fun JournalScreen(navController: NavController, authViewModel: AuthViewModel, jo
                 )
             }
             Text(
-                text = "\uD83D\uDD12",
+                text = "\uD83D\uDD12", //🔒 logout
                 fontSize = 30.sp,
                 modifier = Modifier.clickable {
                     authViewModel.logout()
@@ -138,9 +135,8 @@ fun JournalScreen(navController: NavController, authViewModel: AuthViewModel, jo
             )
         }
 
-        // -------------------
         // Fixed Bottom Navigation Bar
-        // -------------------
+
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -150,10 +146,10 @@ fun JournalScreen(navController: NavController, authViewModel: AuthViewModel, jo
             horizontalArrangement = Arrangement.SpaceEvenly,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Text("\uD83C\uDFE0", fontSize = 36.sp, modifier = Modifier.clickable { navController.navigate("home") })
-            Text("\uD83D\uDE03", fontSize = 36.sp, modifier = Modifier.clickable { navController.navigate("mood") })
-            Text("✍", fontSize = 36.sp, modifier = Modifier.clickable { navController.navigate("journal") })
-            Text("\uD83D\uDCAC", fontSize = 36.sp, modifier = Modifier.clickable { navController.navigate("community") })
+            Text("\uD83C\uDFE0", fontSize = 36.sp, modifier = Modifier.clickable { navController.navigate("home") }) //🏠
+            Text("\uD83D\uDE03", fontSize = 36.sp, modifier = Modifier.clickable { navController.navigate("mood") }) //😃
+            Text("✍", fontSize = 36.sp, modifier = Modifier.clickable { navController.navigate("journal") }) //✍
+            Text("\uD83D\uDCAC", fontSize = 36.sp, modifier = Modifier.clickable { navController.navigate("community") }) //💬
         }
     }
 

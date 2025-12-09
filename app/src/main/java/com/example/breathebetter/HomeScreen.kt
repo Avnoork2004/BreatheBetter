@@ -26,9 +26,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 
-// -------------------
-// Reusable Tip Animation Button
-// -------------------
+
+// Tip Animation Button
+
 @Composable
 fun TipAnimationButton(
     buttonText: String,
@@ -80,9 +80,7 @@ fun TipAnimationButton(
     }
 }
 
-// -------------------
 // MAIN HOME SCREEN
-// -------------------
 @Composable
 fun HomeScreen(navController: NavController, authViewModel: AuthViewModel) {
 
@@ -90,13 +88,12 @@ fun HomeScreen(navController: NavController, authViewModel: AuthViewModel) {
 
     Box(modifier = Modifier.fillMaxSize()) {
 
-        // -------------------
+
         // Scrollable content
-        // -------------------
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(top = 100.dp, bottom = 100.dp) // leave space for top & bottom bars
+                .padding(top = 100.dp, bottom = 100.dp) // space for top & bottom bars
                 .verticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -110,7 +107,7 @@ fun HomeScreen(navController: NavController, authViewModel: AuthViewModel) {
             Spacer(modifier = Modifier.height(40.dp))
 
             // Tip Buttons
-            TipAnimationButton(
+            TipAnimationButton( // 🌸 light pink bullet points
                 buttonText = "\uD83C\uDF38 Take 5 deep breaths",
                 expandedText = "Inhale 4s  •  Hold 1s  •  Exhale 6s\nRepeat 5× to calm your body."
             )
@@ -146,9 +143,7 @@ fun HomeScreen(navController: NavController, authViewModel: AuthViewModel) {
             Spacer(modifier = Modifier.height(40.dp))
         }
 
-        // -------------------
         // Fixed Top Bar
-        // -------------------
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -181,9 +176,7 @@ fun HomeScreen(navController: NavController, authViewModel: AuthViewModel) {
             )
         }
 
-        // -------------------
         // Fixed Bottom Navigation Bar
-        // -------------------
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -193,12 +186,10 @@ fun HomeScreen(navController: NavController, authViewModel: AuthViewModel) {
             horizontalArrangement = Arrangement.SpaceEvenly,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Text("\uD83C\uDFE0", fontSize = 36.sp, modifier = Modifier.clickable { navController.navigate("home") })
-            Text("\uD83D\uDE03", fontSize = 36.sp, modifier = Modifier.clickable { navController.navigate("mood") })
-            Text("✍", fontSize = 36.sp, modifier = Modifier.clickable { navController.navigate("journal") })
-            Text("\uD83D\uDCAC", fontSize = 36.sp, modifier = Modifier.clickable { navController.navigate("community") })
+            Text("\uD83C\uDFE0", fontSize = 36.sp, modifier = Modifier.clickable { navController.navigate("home") }) //🏠
+            Text("\uD83D\uDE03", fontSize = 36.sp, modifier = Modifier.clickable { navController.navigate("mood") }) //😃
+            Text("✍", fontSize = 36.sp, modifier = Modifier.clickable { navController.navigate("journal") }) //✍
+            Text("\uD83D\uDCAC", fontSize = 36.sp, modifier = Modifier.clickable { navController.navigate("community") }) //💬
         }
     }
 }
-
-// 🌸 light pink button

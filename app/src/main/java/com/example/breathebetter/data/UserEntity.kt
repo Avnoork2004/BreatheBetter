@@ -9,5 +9,5 @@ data class UserEntity(
     val firstName: String,
     val lastName: String,
     val email: String,
-    val password: String // demo only; hash in production!
+    val password: String
 )
